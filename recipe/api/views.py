@@ -1,17 +1,22 @@
-from django.shortcuts import render
-from rest_framework import generics, status
-from rest_framework.response import Response
+from rest_framework import generics, filters
 from rest_framework.exceptions import ValidationError
 from recipe.models import Recipe, Review
 from .serializers import RecipeSerializer, ReviewSerializer 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import RecipeFilter, ReviewFilter
+
 
 
 class RecipeList(generics.ListCreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = RecipeFilter
+    search_fields = ['name']
+    ordering_fields = ['avg_rating']
     
     def perform_create(self, serializer):
         author = self.request.user
@@ -28,6 +33,8 @@ class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReviewList(generics.ListCreateAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ReviewFilter
     
     def get_queryset(self):
         slug = self.kwargs['slug']
