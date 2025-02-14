@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import RecipeFilter, ReviewFilter
+from .pagination import RecipePagination
 
 
 
@@ -17,6 +18,7 @@ class RecipeList(generics.ListCreateAPIView):
     filterset_class = RecipeFilter
     search_fields = ['name']
     ordering_fields = ['avg_rating']
+    pagination_class = RecipePagination
     
     def perform_create(self, serializer):
         author = self.request.user
