@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth import get_user_model
 
 
-""" Generate unique slug for any model """
 def create_slug_field(name, queryset):
+    """ Generate unique slug for any model """
     base_slug = slugify(name)
     unique_slug = base_slug
     num = 1
@@ -80,7 +80,7 @@ class Recipe(models.Model):
     avg_rating = models.FloatField(default=0)
     number_reviews = models.IntegerField(default=0)
     ingredients = models.ManyToManyField(Ingredient, related_name='recipes')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipes', null=True)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='recipes', null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, db_index=True)
     
@@ -94,7 +94,7 @@ class Recipe(models.Model):
     
     
 class Review(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews', null=True)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='reviews', null=True)
     description = models.TextField()
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='reviews')

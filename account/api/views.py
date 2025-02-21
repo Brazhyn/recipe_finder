@@ -12,7 +12,6 @@ def register_user(request):
         data = {}
         if serializer.is_valid():
             account = serializer.save()
-            data['username'] = account.username
             data['email'] = account.email
             
             refresh = RefreshToken.for_user(account)
