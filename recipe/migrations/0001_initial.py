@@ -16,45 +16,163 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Ingredient',
+            name="Ingredient",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('caloric_content', models.PositiveIntegerField(default=0)),
-                ('category', models.CharField(choices=[('dairy', 'Dairy Products'), ('meat', 'Meat'), ('fish', 'Fish'), ('seafood', 'Seafood'), ('vegetables', 'Vegetables'), ('fruits', 'Fruits'), ('mushrooms', 'Mushrooms'), ('grains', 'Grains'), ('legumes', 'Legumes'), ('flour', 'Flour'), ('spices_sauces', 'Spices and Sauces'), ('sweets', 'Sweets'), ('beverages', 'Beverages'), ('oils', 'Oils'), ('nuts', 'Nuts'), ('herbs', 'Herbs'), ('condiments', 'Condiments'), ('bakery', 'Bakery')], default='vegetables', max_length=50)),
-                ('slug', models.SlugField(blank=True, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                ("caloric_content", models.PositiveIntegerField(default=0)),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("dairy", "Dairy Products"),
+                            ("meat", "Meat"),
+                            ("fish", "Fish"),
+                            ("seafood", "Seafood"),
+                            ("vegetables", "Vegetables"),
+                            ("fruits", "Fruits"),
+                            ("mushrooms", "Mushrooms"),
+                            ("grains", "Grains"),
+                            ("legumes", "Legumes"),
+                            ("flour", "Flour"),
+                            ("spices_sauces", "Spices and Sauces"),
+                            ("sweets", "Sweets"),
+                            ("beverages", "Beverages"),
+                            ("oils", "Oils"),
+                            ("nuts", "Nuts"),
+                            ("herbs", "Herbs"),
+                            ("condiments", "Condiments"),
+                            ("bakery", "Bakery"),
+                        ],
+                        default="vegetables",
+                        max_length=50,
+                    ),
+                ),
+                ("slug", models.SlugField(blank=True, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Recipe',
+            name="Recipe",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('category', models.CharField(choices=[('breakfast', 'Breakfast'), ('lunch', 'Lunch'), ('healthy', 'Healthy'), ('appetizer', 'Appetizers & Snacks'), ('salad', 'Salads'), ('soup', 'Soups'), ('bread', 'Bread'), ('side_dish', 'Side Dishes'), ('drink', 'Drinks'), ('dessert', 'desserts')], max_length=50)),
-                ('description', models.TextField()),
-                ('steps', models.TextField()),
-                ('total_cooking_time', models.PositiveIntegerField()),
-                ('difficulty', models.CharField(choices=[('easy', 'Easy'), ('medium', 'Medium'), ('hard', 'Hard')], max_length=10)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='images_recipes/')),
-                ('country', models.CharField(max_length=100)),
-                ('avg_rating', models.FloatField(default=0)),
-                ('number_reviews', models.IntegerField(default=0)),
-                ('date_created', models.DateTimeField(auto_now_add=True)),
-                ('slug', models.SlugField(unique=True)),
-                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='recipes', to=settings.AUTH_USER_MODEL)),
-                ('ingredients', models.ManyToManyField(related_name='recipes', to='recipe.ingredient')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("breakfast", "Breakfast"),
+                            ("lunch", "Lunch"),
+                            ("healthy", "Healthy"),
+                            ("appetizer", "Appetizers & Snacks"),
+                            ("salad", "Salads"),
+                            ("soup", "Soups"),
+                            ("bread", "Bread"),
+                            ("side_dish", "Side Dishes"),
+                            ("drink", "Drinks"),
+                            ("dessert", "desserts"),
+                        ],
+                        max_length=50,
+                    ),
+                ),
+                ("description", models.TextField()),
+                ("steps", models.TextField()),
+                ("total_cooking_time", models.PositiveIntegerField()),
+                (
+                    "difficulty",
+                    models.CharField(
+                        choices=[
+                            ("easy", "Easy"),
+                            ("medium", "Medium"),
+                            ("hard", "Hard"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="images_recipes/"
+                    ),
+                ),
+                ("country", models.CharField(max_length=100)),
+                ("avg_rating", models.FloatField(default=0)),
+                ("number_reviews", models.IntegerField(default=0)),
+                ("date_created", models.DateTimeField(auto_now_add=True)),
+                ("slug", models.SlugField(unique=True)),
+                (
+                    "author",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="recipes",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "ingredients",
+                    models.ManyToManyField(
+                        related_name="recipes", to="recipe.ingredient"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Review',
+            name="Review",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.TextField()),
-                ('rating', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(5)])),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to=settings.AUTH_USER_MODEL)),
-                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='recipe.recipe')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("description", models.TextField()),
+                (
+                    "rating",
+                    models.PositiveIntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(5),
+                        ]
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                (
+                    "author",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reviews",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "recipe",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reviews",
+                        to="recipe.recipe",
+                    ),
+                ),
             ],
         ),
     ]

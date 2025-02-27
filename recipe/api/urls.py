@@ -1,14 +1,15 @@
-from django.urls import path, include
-from .views import RecipeList, RecipeDetail, ReviewList, ReviewDetail
+from django.urls import include, path
+
+from .views import RecipeDetail, RecipeList, ReviewDetail, ReviewList
 
 
 recipe_patterns = [
-    path('', RecipeList.as_view(), name='recipe-list'),
-    path('<slug:slug>/', RecipeDetail.as_view(), name='recipe-detail'),
-    path('<slug:slug>/reviews/', ReviewList.as_view(), name='review-list'),
-    path('<slug:slug>/reviews/<int:pk>/', ReviewDetail.as_view(), name='review-detail')
+    path("", RecipeList.as_view(), name="recipe-list"),
+    path("<slug:slug>/", RecipeDetail.as_view(), name="recipe-detail"),
+    path("<slug:slug>/reviews/", ReviewList.as_view(), name="review-list"),
+    path("<slug:slug>/reviews/<int:pk>/", ReviewDetail.as_view(), name="review-detail"),
 ]
 
 urlpatterns = [
-    path('recipes/', include(recipe_patterns)),
+    path("recipes/", include(recipe_patterns)),
 ]
