@@ -12,12 +12,12 @@ from recipe.models import Recipe, Review
 
 
 class RecipeList(generics.ListCreateAPIView):
-    queryset = Recipe.objects.all()
+    queryset = Recipe.objects.all().order_by("-date_created")
     serializer_class = RecipeSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [
         DjangoFilterBackend,
-        filters.SearchFilter,
+        filters.SearchFilter, 
         filters.OrderingFilter,
     ]
     filterset_class = RecipeFilter

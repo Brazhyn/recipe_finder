@@ -17,7 +17,6 @@ dependencies = [
     "pillow (==11.1.0)",
     "psycopg2 (==2.9.10)",
     "pyjwt (==2.10.1)",
-    "python-decouple (==3.8)",
     "sqlparse (==0.5.3)",
     "typing-extensions (==4.12.2)",
     "tzdata (==2024.2)"
@@ -37,4 +36,6 @@ flake8-builtins = "^2.5.0"
 pep8-naming = "^0.14.1"
 flake8-commas = "^4.0.0"
 flake8-import-order = "^0.18.2"
+python-dotenv = "^1.0.1"
+pytest-django = "^4.10.0"
 
