@@ -38,7 +38,11 @@ def test_get_recipe_list(client, recipes):
 )
 @pytest.mark.django_db()
 def test_search_filter_with_field_name(
-    client, recipes, search_term, expected_recipe_name, unexpected_recipe_name
+    client,
+    recipes,
+    search_term,
+    expected_recipe_name,
+    unexpected_recipe_name,
 ):
     recipe_url = reverse("recipe-list")
     response = client.get(recipe_url, {"search": search_term})
@@ -56,7 +60,11 @@ def test_search_filter_with_field_name(
 )
 @pytest.mark.django_db()
 def test_ordering_filter_with_field_avg_rating(
-    client, recipes, ordering_condition, recipe_name, avg_rating
+    client,
+    recipes,
+    ordering_condition,
+    recipe_name,
+    avg_rating,
 ):
     recipe_url = reverse("recipe-list")
     response = client.get(recipe_url, {"ordering": ordering_condition})

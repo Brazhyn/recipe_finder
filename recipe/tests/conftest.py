@@ -1,8 +1,10 @@
-import pytest
 import datetime
+
+import pytest
 from django.utils import timezone
-from recipe.models import Recipe, Ingredient
 from rest_framework.test import APIClient
+
+from recipe.models import Ingredient, Recipe
 
 
 @pytest.fixture

@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.exceptions import ValidationError
+from rest_framework.parsers import FormParser, MultiPartParser
+
 from recipe.models import Ingredient, Recipe, Review
 
 
 class IngredientSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Ingredient
         exclude = ["slug"]

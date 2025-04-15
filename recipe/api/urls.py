@@ -2,7 +2,6 @@ from django.urls import include, path
 
 from .views import RecipeDetail, RecipeList, ReviewDetail, ReviewList
 
-
 recipe_patterns = [
     path("", RecipeList.as_view(), name="recipe-list"),
     path("<slug:slug>/", RecipeDetail.as_view(), name="recipe-detail"),
