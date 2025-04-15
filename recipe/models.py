@@ -57,7 +57,7 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    
+
     CATEGORY_CHOICES = [
         ("breakfast", "Breakfast"),
         ("lunch", "Lunch"),
@@ -93,7 +93,6 @@ class Recipe(models.Model):
     )
     date_created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, db_index=True)
-    
 
     def save(self, *args, **kwargs):
         if not self.slug:
