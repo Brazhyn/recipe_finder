@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -8,7 +9,7 @@ from recipe.api.filters import RecipeFilter, ReviewFilter
 from recipe.api.pagination import RecipePagination
 from recipe.api.permissions import IsOwnerOrReadOnly
 from recipe.api.serializers import RecipeSerializer, ReviewSerializer
-from recipe.models import Like, Recipe, Review
+from recipe.models import Recipe, Review
 
 
 class RecipeList(generics.ListCreateAPIView):
@@ -55,21 +56,13 @@ class LikeToggleAPIView(APIView):
 
     def post(self, request, slug):
         user = request.user
-        try:
-            recipe = Recipe.objects.get(slug=slug)
-        except Recipe.DoesNotExist:
-            return Response(
-                {"detail": "Recipe not found"}, status=status.HTTP_404_NOT_FOUND
-            )
+        recipe = get_object_or_404(Recipe, slug=slug)
 
-        like_obj = Like.objects.filter(user=user, recipe=recipe).first()
-        if like_obj:
-            like_obj.delete()
-            recipe.like_count = recipe.like_count - 1 if recipe.like_count > 0 else 0
-            recipe.save(update_fields=["like_count"])
-            return Response({"detail": "You removed your like"})
+        if recipe.liked_users.filter(id=user.id).exists():
+            recipe.liked_users.remove(user)
         else:
-            Like.objects.create(user=user, recipe=recipe)
-            recipe.like_count += 1
-            recipe.save(update_fields=["like_count"])
-            return Response({"liked": True, "like_count": recipe.like_count})
+            recipe.liked_users.add(user)
+
+        return Response(
+            {"like_count": recipe.liked_users.count()}, status=status.HTTP_200_OK
+        )

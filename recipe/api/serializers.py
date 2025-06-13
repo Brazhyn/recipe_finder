@@ -14,6 +14,8 @@ class IngredientSerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
     parser_classes = (MultiPartParser, FormParser)
     author = serializers.StringRelatedField(read_only=True)
+    likes_count = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = Recipe
@@ -28,6 +30,15 @@ class RecipeSerializer(serializers.ModelSerializer):
             recipe.ingredients.set(ingredients)
         recipe.save()
         return recipe
+
+    def get_likes_count(self, obj):
+        return obj.liked_users.count()
+
+    def get_is_liked(self, obj):
+        user = self.context["request"].user
+        if user.is_authenticated:
+            return user.liked_recipes.filter(id=obj.id).exists()
+        return False
 
 
 class ReviewSerializer(serializers.ModelSerializer):

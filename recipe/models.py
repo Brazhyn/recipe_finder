@@ -82,7 +82,9 @@ class Recipe(models.Model):
     country = models.CharField(max_length=100)
     avg_rating = models.FloatField(default=0)
     number_reviews = models.IntegerField(default=0)
-    like_count = models.PositiveIntegerField(default=0)
+    liked_users = models.ManyToManyField(
+        get_user_model(), related_name="liked_recipes", blank=True
+    )
     ingredients = models.ManyToManyField(Ingredient, related_name="recipes")
     author = models.ForeignKey(
         get_user_model(),
@@ -116,15 +118,3 @@ class Review(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="reviews")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
-
-class Like(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["user", "recipe"], name="unique_user_recipe"
-            )
-        ]
