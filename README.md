@@ -3,14 +3,20 @@
 **Recipe Scout** — REST API solution for users who don't know what to cook.
 
 ## Content
-- [About the project]()
-- [Functionality]()
-- [Technologies]()
-- [Getting Started]()
-- [Usage]()
-- [Tests]()
-- [What to Add or fix]()
-- [Authors]()
+- [Recipe Scout](#recipe-scout)
+  - [Content](#content)
+  - [About the project 📖](#about-the-project-)
+    - [Authorized users can:](#authorized-users-can)
+  - [Functionality 🛠️](#functionality-️)
+  - [Technologies 🧰](#technologies-)
+  - [Getting Started 🚀](#getting-started-)
+    - [Setup](#setup)
+  - [Usage ⚙️](#usage-️)
+    - [File Structure](#file-structure)
+    - [Example Endpoints](#example-endpoints)
+  - [Tests 🔍](#tests-)
+  - [What to Add or Fix 🎯](#what-to-add-or-fix-)
+  - [Authors 🧑‍💻](#authors-)
 
 ## About the project 📖 
 It's a REST API solution that helps users conveniently find recipes based on:
@@ -119,7 +125,8 @@ The project includes unit and integration tests that cover:
 - Permissions and access control;
 - Search and filtering logic;
 - Recipe creation and ownership;
-- Review system behavior.
+- Review system behavior;
+- "Like" toggle system.
 
 To run the execution tests, do the following:
 ```

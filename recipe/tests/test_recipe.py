@@ -113,3 +113,17 @@ def test_update_recipe_without_owner_permission(client, recipes, users):
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response_data["detail"] == "You are not author of this recipe!"
+
+
+@pytest.mark.django_db()
+def test_like_toggle(client, recipes, users):
+    user = users[1]
+    recipe = recipes[0]
+
+    client.force_authenticate(user=user)
+    recipe_url = reverse("like-toggle", kwargs={"slug": recipe.slug})
+    response = client.post(path=recipe_url)
+    data = response.data
+
+    assert response.status_code == status.HTTP_200_OK
+    assert data["like_count"] == recipe.liked_users.count()

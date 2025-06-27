@@ -24,10 +24,12 @@ class RecipeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         author = self.context["request"].user
         ingredients = validated_data.pop("ingredients", None)
+        liked_users = validated_data.pop("liked_users", None)
         recipe = Recipe.objects.create(author=author, **validated_data)
 
-        if ingredients is not None:
+        if ingredients is not None and liked_users is not None:
             recipe.ingredients.set(ingredients)
+            recipe.liked_users.set(liked_users)
         recipe.save()
         return recipe
 
