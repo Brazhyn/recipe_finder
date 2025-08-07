@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from rest_framework.parsers import FormParser, MultiPartParser
 
 from recipe.models import Ingredient, Recipe, Review
+from services.recipe.recipe_service import RecipeService, ReviewService
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -23,15 +23,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         author = self.context["request"].user
-        ingredients = validated_data.pop("ingredients", None)
-        liked_users = validated_data.pop("liked_users", None)
-        recipe = Recipe.objects.create(author=author, **validated_data)
-
-        if ingredients is not None and liked_users is not None:
-            recipe.ingredients.set(ingredients)
-            recipe.liked_users.set(liked_users)
-        recipe.save()
-        return recipe
+        return RecipeService.create_recipe(author=author, validated_data=validated_data)
 
     def get_likes_count(self, obj):
         return obj.liked_users.count()
@@ -53,18 +45,9 @@ class ReviewSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         slug = self.context["view"].kwargs["slug"]
         author = self.context["request"].user
-        recipe = Recipe.objects.get(slug=slug)
 
-        if Review.objects.filter(author=author, recipe=recipe).exists():
-            raise ValidationError("You have already reviewed this movie!")
-
-        if recipe.number_reviews == 0:
-            recipe.avg_rating = validated_data["rating"]
-        else:
-            recipe.avg_rating = (recipe.avg_rating + validated_data["rating"]) / 2
-
-        recipe.number_reviews += 1
-        recipe.save()
-        review = Review.objects.create(author=author, recipe=recipe, **validated_data)
-        review.save()
-        return review
+        return ReviewService.create_review(
+            author=author,
+            slug=slug,
+            validated_data=validated_data,
+        )

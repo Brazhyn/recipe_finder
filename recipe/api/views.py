@@ -10,6 +10,7 @@ from recipe.api.pagination import RecipePagination
 from recipe.api.permissions import IsOwnerOrReadOnly
 from recipe.api.serializers import RecipeSerializer, ReviewSerializer
 from recipe.models import Recipe, Review
+from services.recipe.recipe_service import LikeService
 
 
 class RecipeList(generics.ListCreateAPIView):
@@ -58,11 +59,9 @@ class LikeToggleAPIView(APIView):
         user = request.user
         recipe = get_object_or_404(Recipe, slug=slug)
 
-        if recipe.liked_users.filter(id=user.id).exists():
-            recipe.liked_users.remove(user)
-        else:
-            recipe.liked_users.add(user)
+        liked = LikeService.toggle_like(user=user, recipe=recipe)
 
         return Response(
-            {"like_count": recipe.liked_users.count()}, status=status.HTTP_200_OK
+            {"liked": liked, "like_count": recipe.liked_users.count()},
+            status=status.HTTP_200_OK,
         )

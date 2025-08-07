@@ -135,7 +135,7 @@ poetry run pytest
 
 ## What to Add or Fix 🎯
 The following changes are expected:
-1.  Moving the business logic layer from serializers to separate folders like `services/`.
+1.  Moving the business logic layer from serializers and views to separate folders like `services/`. ✅
 2.  Using an external API to retrieve recipe data.
 3.  Generating a recipe description based on its name and ingredients using AI
 

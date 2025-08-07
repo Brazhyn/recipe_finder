@@ -83,7 +83,9 @@ class Recipe(models.Model):
     avg_rating = models.FloatField(default=0)
     number_reviews = models.IntegerField(default=0)
     liked_users = models.ManyToManyField(
-        get_user_model(), related_name="liked_recipes", blank=True
+        get_user_model(),
+        related_name="liked_recipes",
+        blank=True,
     )
     ingredients = models.ManyToManyField(Ingredient, related_name="recipes")
     author = models.ForeignKey(
