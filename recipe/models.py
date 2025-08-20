@@ -81,7 +81,7 @@ class Recipe(models.Model):
     image = models.ImageField(upload_to="images_recipes/", blank=True, null=True)
     country = models.CharField(max_length=100)
     avg_rating = models.FloatField(default=0)
-    number_reviews = models.IntegerField(default=0)
+    number_reviews = models.IntegerField(default=0, blank=True)
     liked_users = models.ManyToManyField(
         get_user_model(),
         related_name="liked_recipes",
@@ -95,7 +95,7 @@ class Recipe(models.Model):
         null=True,
     )
     date_created = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(unique=True, db_index=True)
+    slug = models.SlugField(unique=True, db_index=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:

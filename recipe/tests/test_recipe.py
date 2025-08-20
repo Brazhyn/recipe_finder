@@ -1,8 +1,10 @@
-import pytest
 from django.urls import reverse
+
+import pytest
 from rest_framework import status
 
 from recipe.models import Ingredient, Recipe
+from services.recipe.daily_recipes_service import DailyRecipesService
 
 
 @pytest.mark.django_db
@@ -127,3 +129,16 @@ def test_like_toggle(client, recipes, users):
 
     assert response.status_code == status.HTTP_200_OK
     assert data["like_count"] == recipe.liked_users.count()
+
+
+@pytest.mark.django_db()
+def test_daily_products_service_within_cold_weather(client, recipes, mocker):
+    r1 = recipes[0]
+    r2 = recipes[1]
+
+    mocker.patch.object(DailyRecipesService, "get_temperature", return_value=2)
+    service = DailyRecipesService(location="50.4501,30.5234")
+    recipes = service.get_daily_recipes()
+
+    assert r1 in recipes
+    assert r2 not in recipes

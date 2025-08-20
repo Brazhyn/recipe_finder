@@ -1,9 +1,17 @@
 from django.urls import include, path
 
-from .views import LikeToggleAPIView, RecipeDetail, RecipeList, ReviewDetail, ReviewList
+from .views import (
+    DailyRecipesAPIView,
+    LikeToggleAPIView,
+    RecipeDetail,
+    RecipeList,
+    ReviewDetail,
+    ReviewList,
+)
 
 recipe_patterns = [
     path("", RecipeList.as_view(), name="recipe-list"),
+    path("daily-recipes/", DailyRecipesAPIView.as_view(), name="daily-recipes"),
     path("<slug:slug>/", RecipeDetail.as_view(), name="recipe-detail"),
     path("<slug:slug>/like-toggle/", LikeToggleAPIView.as_view(), name="like-toggle"),
     path("<slug:slug>/reviews/", ReviewList.as_view(), name="review-list"),

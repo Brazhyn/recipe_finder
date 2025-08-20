@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -10,7 +11,9 @@ from recipe.api.pagination import RecipePagination
 from recipe.api.permissions import IsOwnerOrReadOnly
 from recipe.api.serializers import RecipeSerializer, ReviewSerializer
 from recipe.models import Recipe, Review
+from services.recipe.daily_recipes_service import DailyRecipesService
 from services.recipe.recipe_service import LikeService
+from utils.location import get_user_ip, get_user_location_by_ip
 
 
 class RecipeList(generics.ListCreateAPIView):
@@ -65,3 +68,13 @@ class LikeToggleAPIView(APIView):
             {"liked": liked, "like_count": recipe.liked_users.count()},
             status=status.HTTP_200_OK,
         )
+
+
+class DailyRecipesAPIView(generics.ListAPIView):
+    serializer_class = RecipeSerializer
+
+    def get_queryset(self):
+        ip = get_user_ip(self.request)
+        location = get_user_location_by_ip(ip)
+        daily_recipes_service = DailyRecipesService(location)
+        return daily_recipes_service.get_daily_recipes()
