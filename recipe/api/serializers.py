@@ -8,18 +8,21 @@ from services.recipe.recipe_service import RecipeService, ReviewService
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
-        exclude = ["slug"]
+        fields = "__all__"
 
 
 class RecipeSerializer(serializers.ModelSerializer):
     parser_classes = (MultiPartParser, FormParser)
-    author = serializers.StringRelatedField(read_only=True)
+    author = serializers.EmailField(
+        source="author.email",
+        read_only=True,
+    )
     likes_count = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = Recipe
-        exclude = ["slug"]
+        fields = "__all__"
 
     def create(self, validated_data):
         author = self.context["request"].user
@@ -36,7 +39,10 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField(read_only=True)
+    author = serializers.EmailField(
+        source="author.email",
+        read_only=True,
+    )
 
     class Meta:
         model = Review

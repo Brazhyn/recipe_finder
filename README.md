@@ -15,7 +15,6 @@
     - [File Structure](#file-structure)
     - [Example Endpoints](#example-endpoints)
   - [Tests 🔍](#tests-)
-  - [What to Add or Fix 🎯](#what-to-add-or-fix-)
   - [Authors 🧑‍💻](#authors-)
 
 ## About the project 📖 
@@ -36,6 +35,7 @@ It's a REST API solution that helps users conveniently find recipes based on:
  * ✅ CRUD-operations
  * ✅ Filtering, Sorting
  * ✅ Reviews
+ * ✅ External API for daily recipes based on weather forecast
  * ✅ "Like" toggle system
  * ✅ Tests
 
@@ -47,6 +47,7 @@ It's a REST API solution that helps users conveniently find recipes based on:
   * **Filtering**: _django-filter_
   * **Database**: _PostgreSQL_
   * **Image Handling**: _Pillow_
+  * **External API**: _requests_
   * **Testing**: _pytest_
 
 ## Getting Started 🚀
@@ -132,12 +133,6 @@ To run the execution tests, do the following:
 ```
 poetry run pytest
 ```
-
-## What to Add or Fix 🎯
-The following changes are expected:
-1.  Moving the business logic layer from serializers and views to separate folders like `services/`. ✅
-2.  Using an external API to retrieve recipe data.
-3.  Generating a recipe description based on its name and ingredients using AI
 
 ## Authors 🧑‍💻
 - Brazhynenko Bohdan

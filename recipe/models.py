@@ -45,6 +45,8 @@ class Ingredient(models.Model):
         default="vegetables",
     )
     slug = models.SlugField(unique=True, db_index=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -94,7 +96,8 @@ class Recipe(models.Model):
         related_name="recipes",
         null=True,
     )
-    date_created = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, db_index=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -118,5 +121,5 @@ class Review(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)],
     )
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="reviews")
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

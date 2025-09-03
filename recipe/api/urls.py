@@ -1,13 +1,19 @@
 from django.urls import include, path
 
+from rest_framework.routers import DefaultRouter
+
 from .views import (
     DailyRecipesAPIView,
+    IngredientViewSet,
     LikeToggleAPIView,
     RecipeDetail,
     RecipeList,
     ReviewDetail,
     ReviewList,
 )
+
+router = DefaultRouter()
+router.register("ingredients", IngredientViewSet, basename="ingredient")
 
 recipe_patterns = [
     path("", RecipeList.as_view(), name="recipe-list"),
@@ -20,4 +26,5 @@ recipe_patterns = [
 
 urlpatterns = [
     path("recipes/", include(recipe_patterns)),
+    path("", include(router.urls)),
 ]

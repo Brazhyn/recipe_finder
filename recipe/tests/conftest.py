@@ -95,11 +95,11 @@ def recipes(users, ingredients):
     ]
 
     recipes[0].ingredients.set(ingredients["pizza"])
-    recipes[0].date_created = timezone.now()
+    recipes[0].created_at = timezone.now()
     recipes[0].save()
 
     recipes[1].ingredients.set(ingredients["ratatouille"])
-    recipes[1].date_created = timezone.now() - datetime.timedelta(seconds=30)
+    recipes[1].created_at = timezone.now() - datetime.timedelta(seconds=30)
     recipes[1].save()
-    recipes = sorted(recipes, key=lambda r: r.date_created, reverse=True)
+    recipes = sorted(recipes, key=lambda r: r.created_at, reverse=True)
     return recipes

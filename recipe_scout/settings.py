@@ -43,11 +43,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # first-party
     "recipe",
     "account",
+    # third party
     "rest_framework",
     "django_filters",
     "django_cleanup.apps.CleanupConfig",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -58,6 +61,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Debug Toolbar
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "recipe_scout.urls"
@@ -153,3 +158,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "BLACKLIST_AFTER_ROTATION": False,
 }
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
