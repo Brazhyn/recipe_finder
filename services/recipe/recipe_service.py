@@ -1,3 +1,5 @@
+from django.db.models import F
+
 from rest_framework.exceptions import ValidationError
 
 from account.models import User
@@ -30,10 +32,12 @@ class ReviewService:
         if recipe.number_reviews == 0:
             recipe.avg_rating = validated_data["rating"]
         else:
-            recipe.avg_rating = (recipe.avg_rating + validated_data["rating"]) / 2
+            recipe.avg_rating = (
+                recipe.avg_rating * recipe.number_reviews + validated_data["rating"]
+            ) / (recipe.number_reviews + 1)
 
-        recipe.number_reviews += 1
-        recipe.save()
+        recipe.number_reviews = F("number_reviews") + 1
+        recipe.save(update_fields=["number_reviews"])
         return Review.objects.create(author=author, recipe=recipe, **validated_data)
 
 
