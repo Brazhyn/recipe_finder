@@ -6,11 +6,11 @@ from . import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("recipe.api.urls")),
-    path("account/", include("account.api.urls")),
+    path("api/", include("core.recipe.api.urls")),
+    path("account/", include("core.account.api.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if settings.DEBUG:  # тільки коли DEBUG = True
+if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns += [

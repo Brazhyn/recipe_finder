@@ -7,18 +7,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from recipe.api.filters import IngredientFilter, RecipeFilter, ReviewFilter
-from recipe.api.pagination import RecipePagination
-from recipe.api.permissions import IsOwnerOrReadOnly
-from recipe.api.serializers import (
+from core.recipe.api.filters import IngredientFilter, RecipeFilter, ReviewFilter
+from core.recipe.api.pagination import RecipePagination
+from core.recipe.api.permissions import IsOwnerOrReadOnly
+from core.recipe.api.serializers import (
     IngredientSerializer,
     RecipeSerializer,
     ReviewSerializer,
 )
-from recipe.models import Ingredient, Recipe, Review
-from services.recipe.daily_recipes_service import DailyRecipesService
-from services.recipe.recipe_service import LikeService
-from utils.location import get_user_ip, get_user_location_by_ip
+from core.recipe.models import Ingredient, Recipe, Review
+from core.services.recipe.daily_recipes_service import DailyRecipesService
+from core.services.recipe.recipe_service import LikeService
+from core.utils.location import get_user_ip, get_user_location_by_ip
 
 
 class IngredientViewSet(ReadOnlyModelViewSet):

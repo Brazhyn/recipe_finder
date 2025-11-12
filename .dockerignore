@@ -1,0 +1,10 @@
+docker-compose/
+.git/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.idea/
+.vscode/
+README.MD

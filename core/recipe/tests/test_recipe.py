@@ -3,8 +3,8 @@ from django.urls import reverse
 import pytest
 from rest_framework import status
 
-from recipe.models import Ingredient, Recipe
-from services.recipe.daily_recipes_service import DailyRecipesService
+from core.recipe.models import Ingredient, Recipe
+from core.services.recipe.daily_recipes_service import DailyRecipesService
 
 
 @pytest.mark.django_db

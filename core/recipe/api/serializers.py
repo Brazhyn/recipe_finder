@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from rest_framework.parsers import FormParser, MultiPartParser
 
-from recipe.models import Ingredient, Recipe, Review
-from services.recipe.recipe_service import RecipeService, ReviewService
+from core.recipe.models import Ingredient, Recipe, Review
+from core.services.recipe.recipe_service import RecipeService, ReviewService
 
 
 class IngredientSerializer(serializers.ModelSerializer):

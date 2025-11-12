@@ -82,8 +82,8 @@ class Recipe(models.Model):
     )
     image = models.ImageField(upload_to="images_recipes/", blank=True, null=True)
     country = models.CharField(max_length=100)
-    avg_rating = models.FloatField(default=0)
-    number_reviews = models.IntegerField(default=0, blank=True)
+    avg_rating = models.FloatField(default=0, blank=True, null=True)
+    number_reviews = models.IntegerField(default=0, blank=True, null=True)
     liked_users = models.ManyToManyField(
         get_user_model(),
         related_name="liked_recipes",

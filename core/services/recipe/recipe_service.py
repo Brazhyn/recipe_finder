@@ -2,8 +2,8 @@ from django.db.models import F
 
 from rest_framework.exceptions import ValidationError
 
-from account.models import User
-from recipe.models import Recipe, Review
+from core.account.models import User
+from core.recipe.models import Recipe, Review
 
 
 class RecipeService:
@@ -38,6 +38,8 @@ class ReviewService:
 
         recipe.number_reviews = F("number_reviews") + 1
         recipe.save(update_fields=["number_reviews"])
+
+        recipe.refresh_from_db()
         return Review.objects.create(author=author, recipe=recipe, **validated_data)
 
 

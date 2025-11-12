@@ -3,7 +3,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from recipe.models import Recipe
+from core.recipe.models import Recipe
 
 load_dotenv()
 

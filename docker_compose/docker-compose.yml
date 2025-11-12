@@ -1,0 +1,49 @@
+services:
+  main-app:
+    build: ..
+    image: main-app
+    container_name: main-app
+    restart: always
+    command: "python manage.py runserver 0.0.0.0:8000"
+    env_file:
+      - ../.env
+    networks:
+      - webnet
+    volumes:
+      - ..:/app/
+      - user-media:/app/media/images_recipes
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  adminer:
+    image: adminer
+    restart: always
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - webnet
+
+  postgres:
+    image: postgres:17
+    restart: always
+    container_name: postgres
+    env_file:
+      - ../.env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - webnet
+  
+
+networks:
+  webnet:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  user-media:

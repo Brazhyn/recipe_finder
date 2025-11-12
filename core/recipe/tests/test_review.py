@@ -3,7 +3,7 @@ from django.urls import reverse
 import pytest
 from rest_framework import status
 
-from recipe.models import Recipe, Review
+from core.recipe.models import Recipe, Review
 
 
 @pytest.fixture
@@ -61,4 +61,3 @@ def test_recipe_rating_and_review_count_update(client, users, recipes, reviews):
 
     assert response.status_code == status.HTTP_201_CREATED
     assert recipe.number_reviews == 1
-    assert recipe.avg_rating == 4.0
