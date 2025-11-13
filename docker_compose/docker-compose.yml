@@ -1,10 +1,26 @@
 services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    networks:
+      - webnet
+    expose:
+      - 8088
+    ports:
+      - "80:8088"
+    volumes:
+      - user-media:/app/media/images_recipes
+      - ../nginx:/etc/nginx/conf.d
+    depends_on:
+      - main-app
+
   main-app:
     build: ..
     image: main-app
     container_name: main-app
     restart: always
-    command: "python manage.py runserver 0.0.0.0:8000"
+    command: "gunicorn -c gunicorn.py core.recipe_scout.wsgi"
     env_file:
       - ../.env
     networks:

@@ -48,7 +48,8 @@ It's a REST API solution that helps users conveniently find recipes based on:
   * **Database**: _PostgreSQL_
   * **Image Handling**: _Pillow_
   * **External API**: _requests_
-  * **Testing**: _pytest_
+  * **Testing**: _pytest_, _Docker_
+  * **Server**: _Nginx_, _Gunicorn_
 
 ## Getting Started 🚀
 
@@ -76,11 +77,13 @@ curl -sSL https://install.python-poetry.org | python3 -
    You must create a .env file using the template below:
    ```
    SECRET_KEY=your-secret-key
-   DB_NAME=your_db_name
-   DB_USER=your_db_user
-   DB_PASSWORD=your_db_password
-   DB_HOST=your_db_host
-   DB_PORT=your_db_port
+   DJANGO_ALLOWED_HOSTS=allowed_hosts
+   TOMORROW_IO_API_KEY=tomorrow_api_key
+   POSTGRES_DB=your_db_name
+   POSTGRES_USER=your_db_user
+   POSTGRES_PASSWORD=your_db_password
+   POSTGRES_HOST=your_db_host
+   POSTGRES_PORT=your_db_port
    ```
 
 4. **Migrations and run the server**
@@ -93,6 +96,13 @@ curl -sSL https://install.python-poetry.org | python3 -
    poetry run python manage.py runserver
    ```
    This way a virtual environment with the required dependencies is used.
+
+5. **Run with Docker**
+   If you prefer running the project in containers, you can use Docker Compose.
+   Build and start the containers:
+   ```
+   docker compose up --build
+   ```
    
 ## Usage ⚙️
 
@@ -133,11 +143,14 @@ To run the execution tests, do the following:
 ```
 poetry run pytest
 ```
+To run tests from docker, do the following:
+```
+docker compose exec main-app pytest
+```
 
 ## Authors 🧑‍💻
 - Brazhynenko Bohdan
 - [LinkedIn](https://www.linkedin.com/in/bohdan-brazhynenko-66a540360/)
-- Email: fenixbogdan730@gmail.com 
 
 
 

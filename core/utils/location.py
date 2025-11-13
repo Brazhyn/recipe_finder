@@ -12,14 +12,18 @@ def get_user_ip(request) -> str:
 
 def get_user_location_by_ip(ip: str) -> str:
     default_location = "50.4501,30.5234"
-    url = f"http://ip-api.com/json/{ip}"
     if ip in ("127.0.0.1", "::1", None):
         return default_location
+
+    url = f"http://ip-api.com/json/{ip}"
 
     try:
         response = requests.get(url=url)
         response.raise_for_status()
         data = response.json()
+
+        if data.get("status") != "success":
+            return default_location
 
         lat = str(data.get("lat"))
         lon = str(data.get("lon"))
@@ -27,8 +31,9 @@ def get_user_location_by_ip(ip: str) -> str:
 
         if lat is None or lon is None:
             return default_location
+        location = lat + "," + lon
 
         return location
 
-    except requests.RequestException:
+    except (requests.RequestException, ValueError, KeyError):
         return default_location
